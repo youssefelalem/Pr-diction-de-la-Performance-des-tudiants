@@ -1,0 +1,33 @@
+# Fichiers de test à ignorer
+test_part.ipynb
+test_part2.ipynb
+
+# Dossier rapports
+rapports/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Environnements virtuels
+venv/
+env/
+.env
+
+# IDE
+.vscode/
+.idea/
+
+# Fichiers système
+.DS_Store
+Thumbs.db
