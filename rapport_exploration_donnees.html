@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rapport d'Exploration des Données - Prédiction Performance Étudiants</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+        }
+
+        header h2 {
+            font-weight: 300;
+            opacity: 0.9;
+            font-size: 1.2em;
+        }
+
+        .meta-info {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        main {
+            padding: 40px;
+        }
+
+        .toc {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .toc h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .toc ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .toc a {
+            color: #333;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .toc a:hover {
+            color: #667eea;
+        }
+
+        section {
+            margin-bottom: 40px;
+        }
+
+        h3 {
+            color: #1a1a2e;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        h4 {
+            color: #667eea;
+            margin: 20px 0 10px;
+        }
+
+        .objective-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+
+        .data-box {
+            background: #e8f4f8;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #17a2b8;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.95em;
+        }
+
+        th {
+            background: #1a1a2e;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        tr:hover {
+            background: #e8f4f8;
+        }
+
+        .code-block {
+            background: #1a1a2e;
+            color: #00ff88;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-family: 'Consolas', monospace;
+            font-size: 0.9em;
+            margin: 15px 0;
+        }
+
+        .success-list {
+            list-style: none;
+            padding: 15px;
+            background: #d4edda;
+            border-radius: 10px;
+            border-left: 4px solid #28a745;
+        }
+
+        .success-list li {
+            margin: 8px 0;
+        }
+
+        .success-list li::before {
+            content: "✅ ";
+        }
+
+        .correlation-positive {
+            background: #ffebee;
+            border-left: 4px solid #e74c3c;
+            padding: 15px;
+            border-radius: 0 10px 10px 0;
+            margin: 15px 0;
+        }
+
+        .correlation-negative {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            border-radius: 0 10px 10px 0;
+            margin: 15px 0;
+        }
+
+        .factors-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .factor-card {
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .factor-card.positive {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+        }
+
+        .factor-card.negative {
+            background: linear-gradient(135deg, #dc3545 0%, #fd7e14 100%);
+            color: white;
+        }
+
+        .factor-card h4 {
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .factor-card ol {
+            margin-left: 20px;
+        }
+
+        .checklist {
+            list-style: none;
+        }
+
+        .checklist li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .checklist li::before {
+            content: "☐ ";
+            color: #667eea;
+        }
+
+        footer {
+            background: #1a1a2e;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+
+            .toc ul,
+            .factors-grid {
+                grid-template-columns: 1fr;
+            }
+
+            header h1 {
+                font-size: 1.5em;
+            }
+
+            .meta-info {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 Rapport d'Exploration des Données</h1>
+            <h2>Projet : Prédiction de la Performance des Étudiants</h2>
+            <div class="meta-info">
+                <span>📅 Date : 27 Janvier 2026</span>
+                <span>👤 Auteur : Équipe Data Science</span>
+            </div>
+        </header>
+
+        <main>
+            <nav class="toc">
+                <h3>📋 Table des Matières</h3>
+                <ul>
+                    <li><a href="#intro">1. Introduction</a></li>
+                    <li><a href="#description">2. Description des Données</a></li>
+                    <li><a href="#nettoyage">3. Nettoyage des Données</a></li>
+                    <li><a href="#analyse">4. Analyse Exploratoire</a></li>
+                    <li><a href="#resultats">5. Résultats Clés</a></li>
+                    <li><a href="#etapes">6. Prochaines Étapes</a></li>
+                </ul>
+            </nav>
+
+            <section id="intro">
+                <h3>1. Introduction</h3>
+                <p>Ce rapport documente les étapes d'exploration et de préparation des données pour le projet de
+                    prédiction de la performance académique des étudiants.</p>
+
+                <div class="objective-box">
+                    <h4>🎯 Objectif</h4>
+                    <p>Prédire la note finale (G3) des étudiants en mathématiques en utilisant des variables
+                        socio-démographiques et académiques.</p>
+                </div>
+
+                <div class="data-box">
+                    <h4>📁 Données Source</h4>
+                    <ul>
+                        <li><strong>Fichier :</strong> student-mat.csv</li>
+                        <li><strong>Source :</strong> UCI Machine Learning Repository</li>
+                        <li><strong>Nombre d'observations :</strong> 395 étudiants</li>
+                        <li><strong>Nombre de variables :</strong> 33 attributs</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="description">
+                <h3>2. Description des Données</h3>
+                <h4>Variables Principales</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Variable</th>
+                            <th>Description</th>
+                            <th>Type</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>school</td>
+                            <td>École (GP ou MS)</td>
+                            <td>Catégorielle</td>
+                        </tr>
+                        <tr>
+                            <td>sex</td>
+                            <td>Sexe (F/M)</td>
+                            <td>Catégorielle</td>
+                        </tr>
+                        <tr>
+                            <td>age</td>
+                            <td>Âge (15-22)</td>
+                            <td>Numérique</td>
+                        </tr>
+                        <tr>
+                            <td>address</td>
+                            <td>Type d'adresse (U/R)</td>
+                            <td>Catégorielle</td>
+                        </tr>
+                        <tr>
+                            <td>Medu</td>
+                            <td>Éducation de la mère (0-4)</td>
+                            <td>Numérique</td>
+                        </tr>
+                        <tr>
+                            <td>Fedu</td>
+                            <td>Éducation du père (0-4)</td>
+                            <td>Numérique</td>
+                        </tr>
+                        <tr>
+                            <td>studytime</td>
+                            <td>Temps d'étude hebdomadaire</td>
+                            <td>Numérique</td>
+                        </tr>
+                        <tr>
+                            <td>failures</td>
+                            <td>Nombre d'échecs antérieurs</td>
+                            <td>Numérique</td>
+                        </tr>
+                        <tr>
+                            <td>G1</td>
+                            <td>Note 1er trimestre (0-20)</td>
+                            <td>Numérique</td>
+                        </tr>
+                        <tr>
+                            <td>G2</td>
+                            <td>Note 2ème trimestre (0-20)</td>
+                            <td>Numérique</td>
+                        </tr>
+                        <tr style="background: #fff3cd;">
+                            <td><strong>G3</strong></td>
+                            <td><strong>Note finale (0-20)</strong></td>
+                            <td><strong>Variable cible</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section id="nettoyage">
+                <h3>3. Nettoyage des Données</h3>
+                <h4>Script de Nettoyage (cleaning_script.ipynb)</h4>
+                <div class="code-block">
+                    <pre>import pandas as pd
+import numpy as np
+
+# Chargement des données
+df = pd.read_csv('student-mat.csv', sep=';')
+
+# Vérification des valeurs manquantes
+print(df.isnull().sum())
+
+# Suppression des lignes avec valeurs nulles
+df = df.dropna()
+
+# Sauvegarde du fichier nettoyé
+df.to_csv('temp_data_cleaned.csv', index=False)</pre>
+                </div>
+
+                <h4>Résultat du Nettoyage</h4>
+                <ul class="success-list">
+                    <li><strong>Valeurs manquantes :</strong> 0 (données UCI propres)</li>
+                    <li><strong>Fichier généré :</strong> temp_data_cleaned.csv</li>
+                    <li><strong>Observations conservées :</strong> 395/395 (100%)</li>
+                </ul>
+            </section>
+
+            <section id="analyse">
+                <h3>4. Analyse Exploratoire</h3>
+
+                <div
+                    style="padding: 40px; text-align: center; background: #f8f9fa; border: 2px dashed #999; border-radius: 10px;">
+                    <p style="font-size: 1.2em; color: #666;"><em>Cette section est réservée pour l'analyse exploratoire
+                            qui sera réalisée par le binôme.</em></p>
+                    <p style="margin-top: 10px; color: #888;">Espace réservé pour : transformations, visualisations, et
+                        matrice de corrélation.</p>
+                </div>
+            </section>
+
+            <section id="resultats">
+                <h3>5. Résultats Clés (Prévisionnels)</h3>
+                
+                <div
+                    style="padding: 40px; text-align: center; background: #f8f9fa; border: 2px dashed #999; border-radius: 10px;">
+                    <p style="font-size: 1.2em; color: #666;"><em>Cette section est réservée pour l'analyse exploratoire
+                            qui sera réalisée par le binôme.</em></p>
+                    <p style="margin-top: 10px; color: #888;">Espace réservé pour : transformations, visualisations, et
+                        matrice de corrélation.</p>
+                </div>
+            </section>
+
+            <section id="etapes">
+                <h3>6. Prochaines Étapes</h3>
+
+                <h4>Phase 2 : Modélisation</h4>
+                <ul class="checklist">
+                    <li>Sélection des features pertinentes</li>
+                    <li>Division train/test (80/20)</li>
+                    <li>Entraînement de modèles (Régression Linéaire, Random Forest, etc.)</li>
+                    <li>Évaluation des performances (RMSE, R², MAE)</li>
+                </ul>
+
+                <h4>Phase 3 : Optimisation</h4>
+                <ul class="checklist">
+                    <li>Tuning des hyperparamètres</li>
+                    <li>Validation croisée</li>
+                    <li>Analyse des résidus</li>
+                </ul>
+
+                <h4>Phase 4 : Déploiement</h4>
+                <ul class="checklist">
+                    <li>Création d'une API de prédiction</li>
+                    <li>Interface utilisateur</li>
+                    <li>Documentation finale</li>
+                </ul>
+            </section>
+
+            <section>
+                <h3>📎 Fichiers du Projet</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Fichier</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>student-mat.csv</td>
+                            <td>Données brutes originales</td>
+                        </tr>
+                        <tr>
+                            <td>temp_data_cleaned.csv</td>
+                            <td>Données nettoyées</td>
+                        </tr>
+                        <tr>
+                            <td>cleaning_script.ipynb</td>
+                            <td>Script de nettoyage</td>
+                        </tr>
+                        <tr>
+                            <td>.gitignore</td>
+                            <td>Fichiers exclus du versioning</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </main>
+
+        <footer>
+            <p>📊 Rapport généré automatiquement - Projet ML Student Performance</p>
+        </footer>
+    </div>
+</body>
+
+</html>
