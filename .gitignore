@@ -1,6 +1,9 @@
 #rapports
 /rapports
 
+#youssef_doc
+/youssef_doc
+
 # Python
 __pycache__/
 *.py[cod]
