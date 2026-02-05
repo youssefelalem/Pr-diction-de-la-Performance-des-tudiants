@@ -1,9 +1,5 @@
-# Fichiers de test à ignorer
-test_part.ipynb
-test_part2.ipynb
-
-# Dossier rapports
-rapports/
+#rapports
+/rapports
 
 # Python
 __pycache__/
