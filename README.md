@@ -1,58 +1,49 @@
-# Prediction de la Performance des Etudiants
+﻿# Prédiction de la Performance des Étudiants
 
-Ce projet analyse des donnees d'etudiants et construit des modeles de machine learning pour predire la performance academique.
+Projet de data science pour analyser les données d'étudiants et prédire leur performance académique avec des modèles de machine learning.
 
-## Contenu du projet
+## Structure du projet
 
-- `dataset/../dataset/Morocco_Student_Data_Pool.csv` : jeu de donnees brut.
-- `dataset/../dataset/Morocco_Student_Data_Cleaned.csv` : jeu de donnees nettoye.
-- `clean_data.ipynb` : nettoyage et preparation des donnees.
-- `analyze_data.ipynb` : analyse exploratoire de base.
-- `EDA_Advanced.ipynb` : analyse exploratoire avancee.
-- `ML_student_performance_VF.ipynb` : entrainement et comparaison de modeles.
-- `evaluation.ipynb` : evaluation des performances.
-- `code/best_model_student_prediction.pkl` : meilleur modele sauvegarde.
-- `code/model_features.pkl` : variables/features du modele.
+- `dataset/`
+  - `Morocco_Student_Data_Pool.csv` : données brutes
+  - `Morocco_Student_Data_Cleaned.csv` : données nettoyées
+- `code/`
+  - `clean_data.ipynb` : préparation/nettoyage
+  - `analyze_data.ipynb` : EDA de base
+  - `Advanced_EDA_Morocco_Students.ipynb` : EDA avancée
+  - `ML_student_performance_VF.ipynb` : entraînement/sélection de modèles
+  - `evaluation.ipynb` : évaluation finale
+  - `best_model_student_prediction.pkl` : modèle sauvegardé
+  - `model_features.pkl` : schéma des features du modèle
+- `rapport_par_partie/`
+  - `EDA_Report_Complete.pdf` : rapport EDA complet
 
-## Prerequis
+## Convention recommandée
+
+1. Mettre les notebooks de travail dans `code/`.
+2. Mettre les jeux de données dans `dataset/`.
+3. Mettre les rapports PDF dans `rapport_par_partie/`.
+4. Garder la racine pour les fichiers de projet (`README.md`, `requirements.txt`, `.gitignore`).
+
+## Prérequis
 
 - Python 3.9+
 
-Installer les dependances :
+Installation :
 
 ```bash
 pip install -r requirements.txt
 ```
 
-## Demarrage rapide
+## Exécution recommandée
 
-1. Ouvrir le dossier du projet.
-2. Installer les dependances.
-3. Lancer Jupyter Notebook :
+Ordre conseillé :
 
-```bash
-jupyter notebook
-```
-
-4. Executer les notebooks dans cet ordre recommande :
-   - `clean_data.ipynb`
-   - `analyze_data.ipynb` ou `EDA_Advanced.ipynb`
-   - `ML_student_performance_VF.ipynb`
-   - `evaluation.ipynb`
-
-## Resultat attendu
-
-Le pipeline permet de :
-
-- preparer les donnees et traiter les variables,
-- entrainer plusieurs algorithmes de regression,
-- comparer les metriques,
-- sauvegarder le meilleur modele pour reutilisation.
+1. `code/clean_data.ipynb`
+2. `code/analyze_data.ipynb` ou `code/Advanced_EDA_Morocco_Students.ipynb`
+3. `code/ML_student_performance_VF.ipynb`
+4. `code/evaluation.ipynb`
 
 ## Notes
 
-- Certains notebooks peuvent prendre du temps selon la machine.
-- Le modele final est deja fourni via `code/best_model_student_prediction.pkl`.
-
-
-
+- `.venv/` est ignoré par Git pour éviter les commits volumineux et inutiles.

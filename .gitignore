@@ -1,8 +1,6 @@
-#rapports
-/rapports
-
-#youssef_doc
-/youssef_doc
+# Project-specific
+rapports/
+youssef_doc/
 
 # Python
 __pycache__/
@@ -15,18 +13,20 @@ __pycache__/
 dist/
 build/
 
-# Jupyter Notebook checkpoints
-.ipynb_checkpoints/
-
-# Environnements virtuels
+# Virtual environments
+.venv/
 venv/
 env/
 .env
+.env.*
+
+# Jupyter
+.ipynb_checkpoints/
 
 # IDE
 .vscode/
 .idea/
 
-# Fichiers système
+# OS files
 .DS_Store
 Thumbs.db
