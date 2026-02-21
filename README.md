@@ -16,7 +16,7 @@ Application web de prédiction de la **moyenne annuelle** des lycéens marocains
 
 | Hero | Prédiction |
 |:---:|:---:|
-| ![Hero](static/images/hero.png) | ![Prediction](static/images/prediction.png) |
+| ![Hero](static/screenshots/hero.png) | ![Prediction](static/screenshots/prediction.png) |
 
 ## ✨ Fonctionnalités
 
