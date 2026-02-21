@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduPredictors — Prédiction de la Performance des Étudiants</title>
+    <meta name="description"
+        content="Application web de prédiction de la performance scolaire des étudiants marocains utilisant le Machine Learning.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+    <!-- ========== NAVBAR ========== -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#hero" class="nav-logo">
+                <span class="logo-icon">🎓</span>
+                <span class="logo-text">EduPredictors</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#pipeline">Pipeline</a></li>
+                <li><a href="#prediction">Prédiction</a></li>
+                <li><a href="#dataset">Dataset</a></li>
+                <li><a href="#team">Équipe</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ========== HERO ========== -->
+    <section class="hero" id="hero">
+        <div class="hero-particles" id="particles"></div>
+        <div class="hero-content">
+            <div class="hero-badge">🇲🇦 Projet Data Science</div>
+            <h1 class="hero-title">
+                Prédiction de la <span class="gradient-text">Performance</span><br>
+                des Étudiants Marocains
+            </h1>
+            <p class="hero-subtitle">
+                Une approche Machine Learning pour analyser et prédire la <strong>moyenne annuelle</strong>
+                des lycéens à partir de variables socio-économiques, comportementales et démographiques.
+            </p>
+            <div class="hero-buttons">
+                <a href="#prediction" class="btn btn-primary">
+                    <span>🧠</span> Essayer la Prédiction
+                </a>
+                <a href="#pipeline" class="btn btn-secondary">
+                    <span>📊</span> Voir le Pipeline
+                </a>
+            </div>
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <span class="stat-number" data-target="10000">0</span>
+                    <span class="stat-label">Étudiants</span>
+                </div>
+                <div class="hero-stat">
+                    <span class="stat-number" data-target="35">0</span>
+                    <span class="stat-label">Features</span>
+                </div>
+                <div class="hero-stat">
+                    <span class="stat-number" data-target="6">0</span>
+                    <span class="stat-label">Modèles</span>
+                </div>
+                <div class="hero-stat">
+                    <span class="stat-number" data-target="12">0</span>
+                    <span class="stat-label">Régions</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== PIPELINE ========== -->
+    <section class="section" id="pipeline">
+        <div class="container">
+            <div class="section-header fade-in">
+                <div class="section-badge">🔄 Processus</div>
+                <h2 class="section-title">Pipeline <span class="gradient-text">Data Science</span></h2>
+                <p class="section-subtitle">De la donnée brute à la prédiction : chaque étape de notre méthodologie.</p>
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-item fade-in" data-step="1">
+                    <div class="timeline-icon" style="background: linear-gradient(135deg, #667eea, #764ba2);">📥</div>
+                    <div class="timeline-content">
+                        <h3>Collecte des Données</h3>
+                        <p>Dataset de <strong>10 000 étudiants</strong> marocains avec <strong>286 variables</strong>
+                            couvrant les aspects socio-économiques, académiques et comportementaux.</p>
+                        <div class="timeline-tech">Morocco_Student_Data_Pool.csv</div>
+                    </div>
+                </div>
+                <div class="timeline-item fade-in" data-step="2">
+                    <div class="timeline-icon" style="background: linear-gradient(135deg, #f093fb, #f5576c);">🧹</div>
+                    <div class="timeline-content">
+                        <h3>Nettoyage & Préparation</h3>
+                        <p>Correction du décalage de colonnes, suppression de 18 colonnes vides, imputation intelligente
+                            (médiane/mode), encodage des variables catégorielles.</p>
+                        <div class="timeline-tech">clean_data.ipynb</div>
+                    </div>
+                </div>
+                <div class="timeline-item fade-in" data-step="3">
+                    <div class="timeline-icon" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">📊</div>
+                    <div class="timeline-content">
+                        <h3>Analyse Exploratoire (EDA)</h3>
+                        <p>Distributions, corrélations, détection d'outliers, analyse bivariée et multivariée.
+                            Identification des features les plus prédictives.</p>
+                        <div class="timeline-tech">Advanced_EDA_Morocco_Students.ipynb</div>
+                    </div>
+                </div>
+                <div class="timeline-item fade-in" data-step="4">
+                    <div class="timeline-icon" style="background: linear-gradient(135deg, #43e97b, #38f9d7);">🤖</div>
+                    <div class="timeline-content">
+                        <h3>Modélisation ML</h3>
+                        <p>Comparaison de <strong>6 algorithmes</strong> : Régression Linéaire, Ridge, Lasso, Random
+                            Forest, XGBoost et MLP. Optimisation avec RandomizedSearchCV.</p>
+                        <div class="timeline-tech">ML_student_performance_VF.ipynb</div>
+                    </div>
+                </div>
+                <div class="timeline-item fade-in" data-step="5">
+                    <div class="timeline-icon" style="background: linear-gradient(135deg, #fa709a, #fee140);">📈</div>
+                    <div class="timeline-content">
+                        <h3>Évaluation & SHAP</h3>
+                        <p>Métriques : RMSE, MAE, R². Analyse des résidus, courbes d'apprentissage, et interprétabilité
+                            avec <strong>SHAP Values</strong>.</p>
+                        <div class="timeline-tech">evaluation.ipynb</div>
+                    </div>
+                </div>
+                <div class="timeline-item fade-in" data-step="6">
+                    <div class="timeline-icon" style="background: linear-gradient(135deg, #a18cd1, #fbc2eb);">🚀</div>
+                    <div class="timeline-content">
+                        <h3>Déploiement API</h3>
+                        <p>Le meilleur modèle (<strong>XGBoost Tuné</strong>) est sauvegardé et servi via une API Flask
+                            pour des prédictions en temps réel.</p>
+                        <div class="timeline-tech">api.py + Flask</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Models Comparison -->
+            <div class="models-card fade-in">
+                <h3 class="models-title">⚡ Comparaison des Modèles — Scénario 1 (Début d'année)</h3>
+                <div class="models-table-wrapper">
+                    <table class="models-table">
+                        <thead>
+                            <tr>
+                                <th>Modèle</th>
+                                <th>R² Test</th>
+                                <th>R² Train</th>
+                                <th>RMSE</th>
+                                <th>MAE</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Régression Linéaire</td>
+                                <td>0.1769</td>
+                                <td>0.1808</td>
+                                <td>2.0162</td>
+                                <td>1.7147</td>
+                            </tr>
+                            <tr>
+                                <td>Ridge (L2)</td>
+                                <td>0.1777</td>
+                                <td>0.1806</td>
+                                <td>2.0152</td>
+                                <td>1.7137</td>
+                            </tr>
+                            <tr>
+                                <td>Lasso (L1)</td>
+                                <td>0.1430</td>
+                                <td>0.1327</td>
+                                <td>2.0573</td>
+                                <td>1.7408</td>
+                            </tr>
+                            <tr>
+                                <td>Random Forest</td>
+                                <td>0.1478</td>
+                                <td>0.1756</td>
+                                <td>2.0515</td>
+                                <td>1.7384</td>
+                            </tr>
+                            <tr class="highlight-row">
+                                <td>⭐ XGBoost (Tuned)</td>
+                                <td><strong>0.1827</strong></td>
+                                <td>—</td>
+                                <td><strong>Meilleur</strong></td>
+                                <td><strong>Meilleur</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Deep Learning (MLP)</td>
+                                <td>0.1585</td>
+                                <td>0.2118</td>
+                                <td>2.0386</td>
+                                <td>1.7351</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== PREDICTION ========== -->
+    <section class="section section-dark" id="prediction">
+        <div class="container">
+            <div class="section-header fade-in">
+                <div class="section-badge">🧠 Intelligence Artificielle</div>
+                <h2 class="section-title">Prédiction <span class="gradient-text">Interactive</span></h2>
+                <p class="section-subtitle">Remplissez les informations ci-dessous pour prédire la moyenne annuelle d'un
+                    étudiant.</p>
+            </div>
+
+            <div class="prediction-wrapper fade-in">
+                <!-- Tabs -->
+                <div class="form-tabs">
+                    <button class="form-tab active" data-tab="tab1">👤 Personnel</button>
+                    <button class="form-tab" data-tab="tab2">👨‍👩‍👧‍👦 Famille</button>
+                    <button class="form-tab" data-tab="tab3">📚 Scolarité</button>
+                    <button class="form-tab" data-tab="tab4">🏠 Mode de Vie</button>
+                </div>
+
+                <form id="prediction-form">
+                    <!-- Tab 1: Personnel -->
+                    <div class="tab-content active" id="tab1">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Sexe</label>
+                                <select name="sexe">
+                                    <option value="F">Féminin</option>
+                                    <option value="M">Masculin</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Âge</label>
+                                <input type="number" name="age" min="17" max="19" value="18">
+                            </div>
+                            <div class="form-group">
+                                <label>Zone</label>
+                                <select name="zone">
+                                    <option>Urbain</option>
+                                    <option>Rural</option>
+                                    <option>Semi-Urbain</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Région</label>
+                                <select name="region">
+                                    <option>Casablanca-Settat</option>
+                                    <option>Rabat-Sale-Kenitra</option>
+                                    <option>Fes-Meknes</option>
+                                    <option>Marrakech-Safi</option>
+                                    <option>Tanger-Tetouan-Al Hoceima</option>
+                                    <option>Souss-Massa</option>
+                                    <option>Oriental</option>
+                                    <option>Beni Mellal-Khenifra</option>
+                                    <option>Draa-Tafilalet</option>
+                                    <option>Guelmim-Oued Noun</option>
+                                    <option>Laayoune-Sakia El Hamra</option>
+                                    <option>Dakhla-Oued Ed-Dahab</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab 2: Famille -->
+                    <div class="tab-content" id="tab2">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Revenu Familial (MAD)</label>
+                                <input type="number" name="revenu_familial" min="0" max="70000" step="500"
+                                    value="14000">
+                            </div>
+                            <div class="form-group">
+                                <label>Frères & Sœurs</label>
+                                <input type="number" name="nombre_freres_soeurs" min="0" max="6" value="2">
+                            </div>
+                            <div class="form-group">
+                                <label>Membres Famille</label>
+                                <input type="number" name="nombre_membres_famille" min="2" max="12" value="5">
+                            </div>
+                            <div class="form-group">
+                                <label>Statut Parental</label>
+                                <select name="statut_parental">
+                                    <option>Maries</option>
+                                    <option>Divorces</option>
+                                    <option>Veuf</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Éducation du Père</label>
+                                <select name="niveau_education_pere">
+                                    <option>Aucun</option>
+                                    <option>Primaire</option>
+                                    <option>Secondaire</option>
+                                    <option>Universitaire</option>
+                                    <option>Master</option>
+                                    <option>Doctorat</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Éducation de la Mère</label>
+                                <select name="niveau_education_mere">
+                                    <option>Aucun</option>
+                                    <option>Primaire</option>
+                                    <option>Secondaire</option>
+                                    <option>Universitaire</option>
+                                    <option>Master</option>
+                                    <option>Doctorat</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Soutien Familial</label>
+                                <select name="soutien_familial">
+                                    <option>Faible</option>
+                                    <option value="Moyen" selected>Moyen</option>
+                                    <option>Eleve</option>
+                                    <option>Tres Eleve</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Implication des Parents</label>
+                                <select name="implication_parents">
+                                    <option>Faible</option>
+                                    <option value="Moyen" selected>Moyen</option>
+                                    <option>Eleve</option>
+                                    <option>Tres Eleve</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab 3: Scolarité -->
+                    <div class="tab-content" id="tab3">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Niveau</label>
+                                <select name="niveau">
+                                    <option>Tronc Commun</option>
+                                    <option>1Bac</option>
+                                    <option>2Bac</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Filière</label>
+                                <select name="filiere">
+                                    <option>Sciences Et Technologies</option>
+                                    <option>Sciences Experimentales</option>
+                                    <option>Sciences Mathematiques</option>
+                                    <option>Sciences</option>
+                                    <option>Lettres Et Sciences Humaines</option>
+                                    <option>Sciences Economiques</option>
+                                    <option>Arts Appliques</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Heures d'étude / jour</label>
+                                <input type="number" name="heures_etude_jour" min="0" max="8" step="0.5" value="2">
+                            </div>
+                            <div class="form-group">
+                                <label>Heures d'étude weekend</label>
+                                <input type="number" name="heures_etude_weekend" min="0" max="12" step="0.5" value="3">
+                            </div>
+                            <div class="form-group">
+                                <label>Absences Totales</label>
+                                <input type="number" name="absences_totales" min="0" max="30" value="5">
+                            </div>
+                            <div class="form-group">
+                                <label>Cours Particuliers</label>
+                                <select name="cours_particuliers">
+                                    <option>Non</option>
+                                    <option>Oui</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Soutien (h/semaine)</label>
+                                <input type="number" name="heures_soutien_semaine" min="0" max="10" step="0.5"
+                                    value="2">
+                            </div>
+                            <div class="form-group">
+                                <label>Taux d'Assiduité (%)</label>
+                                <input type="number" name="taux_assiduite" min="78" max="100" value="89">
+                            </div>
+                            <div class="form-group">
+                                <label>Ponctualité (%)</label>
+                                <input type="number" name="taux_ponctualite" min="82" max="100" value="91">
+                            </div>
+                            <div class="form-group">
+                                <label>Remise Devoirs (%)</label>
+                                <input type="number" name="taux_remise_devoirs" min="65" max="100" value="83">
+                            </div>
+                            <div class="form-group">
+                                <label>Années Redoublement</label>
+                                <input type="number" name="annees_redoublement" min="0" max="1" value="0">
+                            </div>
+                            <div class="form-group">
+                                <label>Retards</label>
+                                <input type="number" name="retards" min="0" max="12" value="5">
+                            </div>
+                            <div class="form-group">
+                                <label>Motivation</label>
+                                <select name="niveau_motivation">
+                                    <option>Faible</option>
+                                    <option value="Moyen" selected>Moyen</option>
+                                    <option>Eleve</option>
+                                    <option>Tres Eleve</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab 4: Mode de Vie -->
+                    <div class="tab-content" id="tab4">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Distance École (km)</label>
+                                <input type="number" name="distance_ecole_km" min="0" max="50" step="0.5" value="5">
+                            </div>
+                            <div class="form-group">
+                                <label>Sommeil (h/nuit)</label>
+                                <input type="number" name="heures_sommeil_semaine" min="4" max="12" step="0.5"
+                                    value="7">
+                            </div>
+                            <div class="form-group">
+                                <label>Sport (h/semaine)</label>
+                                <input type="number" name="activite_physique_heures_semaine" min="0" max="14" step="0.5"
+                                    value="4">
+                            </div>
+                            <div class="form-group">
+                                <label>Écran (h/jour)</label>
+                                <input type="number" name="temps_ecran_heures_jour" min="0" max="10" step="0.5"
+                                    value="3">
+                            </div>
+                            <div class="form-group">
+                                <label>Participation en Classe</label>
+                                <select name="participation_classe">
+                                    <option>Faible</option>
+                                    <option value="Moyen" selected>Moyen</option>
+                                    <option>Eleve</option>
+                                    <option>Tres Eleve</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Attention en Cours</label>
+                                <select name="attention_cours">
+                                    <option>Faible</option>
+                                    <option value="Moyen" selected>Moyen</option>
+                                    <option>Eleve</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Confiance en Soi</label>
+                                <select name="confiance_en_soi">
+                                    <option>Faible</option>
+                                    <option value="Moyen" selected>Moyen</option>
+                                    <option>Eleve</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Internet à la Maison</label>
+                                <select name="internet">
+                                    <option>Non</option>
+                                    <option value="Oui" selected>Oui</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Chambre Personnelle</label>
+                                <select name="chambre_personnelle">
+                                    <option>Non</option>
+                                    <option value="Oui" selected>Oui</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Ordinateur Portable</label>
+                                <select name="ordinateur_portable">
+                                    <option>Non</option>
+                                    <option value="Oui" selected>Oui</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Submit -->
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary btn-lg" id="predict-btn">
+                            <span class="btn-text">🚀 Prédire la Moyenne</span>
+                            <span class="btn-loader" style="display:none;">⏳ Calcul en cours...</span>
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Result -->
+                <div class="result-card" id="result-card" style="display:none;">
+                    <div class="result-header">Résultat de la Prédiction</div>
+                    <div class="gauge-container">
+                        <svg class="gauge" viewBox="0 0 200 120">
+                            <path class="gauge-bg" d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="#1e293b"
+                                stroke-width="14" stroke-linecap="round" />
+                            <path class="gauge-fill" id="gauge-fill" d="M 20 100 A 80 80 0 0 1 180 100" fill="none"
+                                stroke="url(#gaugeGrad)" stroke-width="14" stroke-linecap="round"
+                                stroke-dasharray="251.2" stroke-dashoffset="251.2" />
+                            <defs>
+                                <linearGradient id="gaugeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" stop-color="#f5576c" />
+                                    <stop offset="50%" stop-color="#ffc107" />
+                                    <stop offset="100%" stop-color="#43e97b" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                        <div class="gauge-value" id="gauge-value">—</div>
+                        <div class="gauge-label">/ 20</div>
+                    </div>
+                    <div class="result-interpretation" id="result-interpretation"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== DATASET ========== -->
+    <section class="section" id="dataset">
+        <div class="container">
+            <div class="section-header fade-in">
+                <div class="section-badge">📦 Données</div>
+                <h2 class="section-title">Le <span class="gradient-text">Dataset</span></h2>
+                <p class="section-subtitle">Morocco Student Data Pool — un dataset riche couvrant 12 régions du Maroc.
+                </p>
+            </div>
+
+            <div class="stats-grid fade-in">
+                <div class="stat-card">
+                    <div class="stat-card-icon">👥</div>
+                    <div class="stat-card-number" data-target="10000">0</div>
+                    <div class="stat-card-label">Étudiants</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-icon">📋</div>
+                    <div class="stat-card-number" data-target="268">0</div>
+                    <div class="stat-card-label">Colonnes (nettoyées)</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-icon">🎯</div>
+                    <div class="stat-card-number" data-target="35">0</div>
+                    <div class="stat-card-label">Features Retenues</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-icon">🗺️</div>
+                    <div class="stat-card-number" data-target="12">0</div>
+                    <div class="stat-card-label">Régions</div>
+                </div>
+            </div>
+
+            <div class="insight-cards fade-in">
+                <div class="insight-card">
+                    <div class="insight-icon">💰</div>
+                    <h4>Revenu Familial</h4>
+                    <p>Variable la plus corrélée avec la performance (r = +0.37). Le facteur socio-économique dominant.
+                    </p>
+                </div>
+                <div class="insight-card">
+                    <div class="insight-icon">⚖️</div>
+                    <h4>Équilibre des Genres</h4>
+                    <p>50.2% Filles vs 49.8% Garçons — un dataset parfaitement équilibré.</p>
+                </div>
+                <div class="insight-card">
+                    <div class="insight-icon">🏫</div>
+                    <h4>7 Filières</h4>
+                    <p>De Sciences Mathématiques à Arts Appliqués, toutes les filières du lycée qualifiant sont
+                        représentées.</p>
+                </div>
+                <div class="insight-card">
+                    <div class="insight-icon">🧹</div>
+                    <h4>Nettoyage Rigoureux</h4>
+                    <p>18 colonnes 100% vides supprimées, correction du décalage, imputation intelligente par
+                        médiane/mode.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== TEAM ========== -->
+    <section class="section section-dark" id="team">
+        <div class="container">
+            <div class="section-header fade-in">
+                <div class="section-badge">👥 L'Équipe</div>
+                <h2 class="section-title">Notre <span class="gradient-text">Équipe</span></h2>
+                <p class="section-subtitle">Projet réalisé dans le cadre du cursus Data Science.</p>
+            </div>
+
+            <div class="team-grid fade-in">
+                <div class="team-card">
+                    <div class="team-avatar">🧑‍💻</div>
+                    <h4>Membre 1</h4>
+                    <p>Data Cleaning & Préparation</p>
+                </div>
+                <div class="team-card">
+                    <div class="team-avatar">👩‍🔬</div>
+                    <h4>Membre 2</h4>
+                    <p>Analyse Exploratoire (EDA)</p>
+                </div>
+                <div class="team-card">
+                    <div class="team-avatar">🧑‍🏫</div>
+                    <h4>Membre 3</h4>
+                    <p>Modélisation & ML</p>
+                </div>
+                <div class="team-card">
+                    <div class="team-avatar">👨‍💻</div>
+                    <h4>Membre 4</h4>
+                    <p>Évaluation & Déploiement</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="footer">
+        <div class="container">
+            <p>🎓 EduPredictors — Prédiction de la Performance des Étudiants Marocains</p>
+            <p class="footer-sub">Projet Data Science • 2026</p>
+        </div>
+    </footer>
+
+    <script src="/static/script.js"></script>
+</body>
+
+</html>
