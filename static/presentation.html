@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Présentation — Prédiction de la Performance des Étudiants Marocains</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        /* ========== RESET & BASE ========== */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --primary: #1a3a5c;
+            --primary-light: #2c5f8a;
+            --accent: #c9a84c;
+            --accent-light: #e8d08e;
+            --dark: #0f1923;
+            --text: #2c3e50;
+            --text-light: #5a6c7d;
+            --bg: #ffffff;
+            --bg-alt: #f8f9fc;
+            --border: #dce3ea;
+            --success: #27ae60;
+            --warning: #e67e22;
+            --danger: #e74c3c;
+            --info: #2980b9;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--text);
+            background: var(--bg);
+            line-height: 1.6;
+            font-size: 11pt;
+        }
+
+        /* ========== PRINT SETUP ========== */
+        @page {
+            size: A4 landscape;
+            margin: 0;
+        }
+
+        .slide {
+            width: 297mm;
+            height: 210mm;
+            padding: 20mm 25mm;
+            page-break-after: always;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .slide:last-child {
+            page-break-after: avoid;
+        }
+
+        /* ========== SLIDE DECORATIONS ========== */
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 8mm;
+            height: 100%;
+            background: linear-gradient(180deg, var(--primary), var(--primary-light));
+        }
+
+        .slide::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+        }
+
+        .slide-number {
+            position: absolute;
+            bottom: 8mm;
+            right: 12mm;
+            font-size: 9pt;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .slide-footer {
+            position: absolute;
+            bottom: 8mm;
+            left: 20mm;
+            font-size: 7.5pt;
+            color: var(--text-light);
+        }
+
+        /* ========== COVER SLIDE ========== */
+        .slide-cover {
+            background: linear-gradient(135deg, var(--dark) 0%, var(--primary) 60%, var(--primary-light) 100%);
+            color: #fff;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 25mm 35mm;
+        }
+
+        .slide-cover::before {
+            background: linear-gradient(180deg, var(--accent), var(--accent-light));
+        }
+
+        .cover-university {
+            font-size: 11pt;
+            font-weight: 400;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            opacity: 0.85;
+            margin-bottom: 5mm;
+        }
+
+        .cover-module {
+            font-size: 9.5pt;
+            font-weight: 300;
+            opacity: 0.7;
+            margin-bottom: 12mm;
+            letter-spacing: 1px;
+        }
+
+        .cover-divider {
+            width: 60mm;
+            height: 2px;
+            background: var(--accent);
+            margin: 0 auto 10mm;
+        }
+
+        .cover-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 28pt;
+            font-weight: 900;
+            line-height: 1.2;
+            margin-bottom: 5mm;
+        }
+
+        .cover-subtitle {
+            font-size: 13pt;
+            font-weight: 300;
+            opacity: 0.8;
+            margin-bottom: 15mm;
+        }
+
+        .cover-emoji {
+            font-size: 40pt;
+            margin-bottom: 8mm;
+        }
+
+        .cover-meta {
+            font-size: 9pt;
+            opacity: 0.65;
+        }
+
+        .cover-meta span {
+            margin: 0 8mm;
+        }
+
+        .cover-team {
+            margin-top: 10mm;
+            font-size: 9pt;
+            opacity: 0.75;
+            line-height: 1.8;
+        }
+
+        .cover-advisors {
+            margin-top: 5mm;
+            font-size: 8.5pt;
+            opacity: 0.6;
+        }
+
+        /* ========== STANDARD SLIDE ========== */
+        .slide-header {
+            display: flex;
+            align-items: center;
+            gap: 4mm;
+            margin-bottom: 8mm;
+            padding-bottom: 4mm;
+            border-bottom: 2px solid var(--accent);
+        }
+
+        .slide-header-icon {
+            font-size: 22pt;
+        }
+
+        .slide-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 20pt;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .slide-header .slide-header-num {
+            margin-left: auto;
+            font-size: 9pt;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .slide-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        /* ========== TWO COLUMN LAYOUT ========== */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8mm;
+            flex: 1;
+        }
+
+        .three-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 6mm;
+            flex: 1;
+        }
+
+        /* ========== CONTENT CARDS ========== */
+        .card {
+            background: var(--bg-alt);
+            border: 1px solid var(--border);
+            border-radius: 4mm;
+            padding: 5mm;
+            border-left: 3px solid var(--primary);
+        }
+
+        .card-accent {
+            border-left-color: var(--accent);
+        }
+
+        .card-success {
+            border-left-color: var(--success);
+        }
+
+        .card-warning {
+            border-left-color: var(--warning);
+        }
+
+        .card-info {
+            border-left-color: var(--info);
+        }
+
+        .card-danger {
+            border-left-color: var(--danger);
+        }
+
+        .card h3 {
+            font-size: 11pt;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 3mm;
+        }
+
+        .card p,
+        .card li {
+            font-size: 9.5pt;
+            line-height: 1.5;
+            color: var(--text);
+        }
+
+        .card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .card ul li::before {
+            content: '▸  ';
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .card ul li {
+            margin-bottom: 1.5mm;
+        }
+
+        /* ========== SCRIPT BOX ========== */
+        .script-box {
+            background: #fff8e1;
+            border: 1px dashed var(--accent);
+            border-radius: 3mm;
+            padding: 4mm 5mm;
+            margin-top: 4mm;
+            position: relative;
+        }
+
+        .script-box::before {
+            content: '🎤 Script à dire';
+            position: absolute;
+            top: -3mm;
+            left: 4mm;
+            background: #fff8e1;
+            padding: 0 2mm;
+            font-size: 7.5pt;
+            font-weight: 700;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .script-box p {
+            font-size: 9pt;
+            color: #5d4e37;
+            line-height: 1.6;
+            font-style: italic;
+            margin-top: 1mm;
+        }
+
+        /* ========== TABLES ========== */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 9pt;
+            margin: 3mm 0;
+        }
+
+        .data-table thead {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        .data-table th {
+            padding: 2.5mm 3mm;
+            text-align: left;
+            font-weight: 600;
+            font-size: 8.5pt;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .data-table td {
+            padding: 2mm 3mm;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .data-table tbody tr:nth-child(even) {
+            background: var(--bg-alt);
+        }
+
+        .data-table .highlight-row {
+            background: #e8f5e9 !important;
+            font-weight: 700;
+        }
+
+        /* ========== STATS GRID ========== */
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 4mm;
+            margin: 3mm 0;
+        }
+
+        .stat-item {
+            text-align: center;
+            background: var(--bg-alt);
+            border: 1px solid var(--border);
+            border-radius: 3mm;
+            padding: 4mm 3mm;
+        }
+
+        .stat-value {
+            font-size: 20pt;
+            font-weight: 800;
+            color: var(--primary);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 7.5pt;
+            color: var(--text-light);
+            margin-top: 1.5mm;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* ========== PIPELINE FLOW ========== */
+        .pipeline {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2mm;
+            margin: 5mm 0;
+            flex-wrap: wrap;
+        }
+
+        .pipeline-step {
+            background: var(--primary);
+            color: #fff;
+            padding: 3mm 5mm;
+            border-radius: 3mm;
+            font-size: 8.5pt;
+            font-weight: 600;
+            text-align: center;
+            min-width: 28mm;
+        }
+
+        .pipeline-arrow {
+            color: var(--accent);
+            font-size: 14pt;
+            font-weight: 700;
+        }
+
+        /* ========== BADGE ========== */
+        .badge {
+            display: inline-block;
+            padding: 1mm 3mm;
+            border-radius: 2mm;
+            font-size: 7.5pt;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .badge-primary {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        .badge-accent {
+            background: var(--accent);
+            color: var(--dark);
+        }
+
+        .badge-success {
+            background: var(--success);
+            color: #fff;
+        }
+
+        /* ========== KEY INSIGHT ========== */
+        .key-insight {
+            background: linear-gradient(135deg, #e8f4f8, #f0f7ff);
+            border: 1px solid #b3d9ea;
+            border-radius: 3mm;
+            padding: 4mm 5mm;
+            margin: 3mm 0;
+            display: flex;
+            align-items: center;
+            gap: 3mm;
+        }
+
+        .key-insight-icon {
+            font-size: 16pt;
+        }
+
+        .key-insight p {
+            font-size: 9.5pt;
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        /* ========== TEAM GRID ========== */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 4mm;
+            margin: 3mm 0;
+        }
+
+        .team-member {
+            text-align: center;
+            background: var(--bg-alt);
+            border: 1px solid var(--border);
+            border-radius: 3mm;
+            padding: 4mm 3mm;
+        }
+
+        .team-member .member-avatar {
+            width: 18mm;
+            height: 18mm;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent);
+            margin-bottom: 2mm;
+        }
+
+        .team-member .member-name {
+            font-size: 8.5pt;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .team-member .member-role {
+            font-size: 7.5pt;
+            color: var(--accent);
+            font-weight: 600;
+            margin-top: 1mm;
+        }
+
+        .team-member .member-tasks {
+            font-size: 7pt;
+            color: var(--text-light);
+            margin-top: 1mm;
+            line-height: 1.4;
+        }
+
+        /* ========== METHODOLOGY SECTION ========== */
+        .method-tag {
+            display: inline-block;
+            background: var(--primary);
+            color: #fff;
+            padding: 1mm 3mm;
+            border-radius: 2mm;
+            font-size: 7.5pt;
+            font-weight: 600;
+            margin: 0.5mm;
+        }
+
+        /* ========== SCREEN ========== */
+        @media screen {
+            body {
+                background: #e8ecf1;
+                padding: 10mm;
+            }
+
+            .slide {
+                background: #fff;
+                margin: 0 auto 10mm;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+                border-radius: 2mm;
+            }
+        }
+
+        @media print {
+            body {
+                background: #fff;
+                padding: 0;
+            }
+
+            .slide {
+                box-shadow: none;
+                border-radius: 0;
+            }
+
+            .script-box {
+                background: #fff8e1 !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+        }
+
+        .section-subtitle {
+            font-size: 10pt;
+            color: var(--text-light);
+            margin-bottom: 5mm;
+            font-weight: 400;
+        }
+
+        /* Feature tags */
+        .feature-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2mm;
+            margin: 2mm 0;
+        }
+
+        .f-tag {
+            background: #eef2f7;
+            border: 1px solid #d0d9e3;
+            border-radius: 2mm;
+            padding: 1mm 3mm;
+            font-size: 7.5pt;
+            color: var(--primary);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Conclusion highlight */
+        .conclusion-box {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: #fff;
+            border-radius: 4mm;
+            padding: 6mm;
+            text-align: center;
+            margin: 4mm 0;
+        }
+
+        .conclusion-box h3 {
+            color: var(--accent-light);
+            font-family: 'Playfair Display', serif;
+            font-size: 14pt;
+            margin-bottom: 3mm;
+        }
+
+        .conclusion-box p {
+            font-size: 10pt;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ╔══════════════════════════════════════════════╗ -->
+    <!-- ║           SLIDE 1 — COVER                    ║ -->
+    <!-- ╚══════════════════════════════════════════════╝ -->
+    <div class="slide slide-cover">
+        <div class="cover-university">Université Hassan II de Casablanca</div>
+        <div class="cover-module">Faculté des Sciences Aïn Chock — Master Big Data & Data Science</div>
+        <div class="cover-divider"></div>
+        <div class="cover-emoji">🎓</div>
+        <h1 class="cover-title">Prédiction de la Performance<br>des Étudiants Marocains</h1>
+        <div class="cover-subtitle">Application de Machine Learning pour la prédiction de la moyenne annuelle</div>
+        <div class="cover-divider"></div>
+        <div class="cover-team">
+            <strong>Équipe EduPredictors :</strong><br>
+            Maryem Boulaaqidate · Douae Moussaoui · Youssef Elalem · Taha Kachmar · Mohammed Rakhila
+        </div>
+        <div class="cover-advisors">
+            Encadré par : <strong>Pr. Said Nouh</strong> &nbsp;·&nbsp; Co-encadrant : <strong>M. Taoufik Amzil</strong>
+        </div>
+        <div class="cover-meta">
+            <span>Année Universitaire 2025 – 2026</span>
+            <span>·</span>
+            <span>Projet de fin de module</span>
+        </div>
+    </div>
+
+    <!-- ╔══════════════════════════════════════════════╗ -->
+    <!-- ║           SLIDE 2 — PLAN                     ║ -->
+    <!-- ╚══════════════════════════════════════════════╝ -->
+    <div class="slide">
+        <div class="slide-header">
+            <span class="slide-header-icon">📋</span>
+            <h2>Plan de la Présentation</h2>
+            <span class="slide-header-num">Sommaire</span>
+        </div>
+        <div class="slide-body">
+            <div class="two-col">
+                <div>
+                    <div class="card" style="margin-bottom:4mm;">
+                        <h3>1. Contexte & Problématique</h3>
+                        <p>Pourquoi prédire la performance scolaire au Maroc ?</p>
+                    </div>
+                    <div class="card card-accent" style="margin-bottom:4mm;">
+                        <h3>2. Objectifs du Projet</h3>
+                        <p>Ce que nous visons à accomplir</p>
+                    </div>
+                    <div class="card card-info" style="margin-bottom:4mm;">
+                        <h3>3. Dataset & Exploration</h3>
+                        <p>Description des données et analyse exploratoire</p>
+                    </div>
+                    <div class="card card-success" style="margin-bottom:4mm;">
+                        <h3>4. Méthodologie & Pipeline ML</h3>
+                        <p>Notre approche technique complète</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="card card-warning" style="margin-bottom:4mm;">
+                        <h3>5. Modélisation & Résultats</h3>
+                        <p>Comparaison des 6 modèles et interprétation</p>
+                    </div>
+                    <div class="card card-danger" style="margin-bottom:4mm;">
+                        <h3>6. Application Web & Démo</h3>
+                        <p>Interface de prédiction interactive</p>
+                    </div>
+                    <div class="card" style="margin-bottom:4mm;">
+                        <h3>7. Gestion de Projet (Scrum)</h3>
+                        <p>Méthodologie Agile & rôles de l'équipe</p>
+                    </div>
+                    <div class="card card-accent" style="margin-bottom:4mm;">
+                        <h3>8. Conclusion & Perspectives</h3>
+                        <p>Bilan et améliorations futures</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="script-box">
+            <p>« Bonjour à tous. Nous allons vous présenter notre projet de fin de module intitulé Prédiction de la
+                Performance des Étudiants Marocains. Voici le plan que nous allons suivre. Nous commencerons par le
+                contexte, puis les objectifs, ensuite nous détaillerons les données, la méthodologie, les résultats,
+                l'application web, la gestion de projet, et enfin la conclusion. »</p>
+        </div>
+        <span class="slide-number">2 / 11</span>
+        <span class="slide-footer">EduPredictors — Master Big Data & Data Science 2025-2026</span>
+    </div>
+
+    <!-- ╔══════════════════════════════════════════════╗ -->
+    <!-- ║      SLIDE 3 — CONTEXTE & PROBLÉMATIQUE      ║ -->
+    <!-- ╚══════════════════════════════════════════════╝ -->
+    <div class="slide">
+        <div class="slide-header">
+            <span class="slide-header-icon">🔍</span>
+            <h2>Contexte & Problématique</h2>
+            <span class="slide-header-num">01</span>
+        </div>
+        <div class="slide-body">
+            <p class="section-subtitle">Pourquoi s'intéresser à la performance scolaire au Maroc ?</p>
+            <div class="two-col">
+                <div>
+                    <div class="card" style="margin-bottom:4mm;">
+                        <h3>📌 Constats</h3>
+                        <ul>
+                            <li>Le Maroc fait face à des défis importants en matière d'éducation : décrochage scolaire,
+                                disparités régionales et inégalités socio-économiques</li>
+                            <li>Les taux d'échec dans le secondaire restent élevés, affectant l'avenir des jeunes</li>
+                            <li>Les facteurs d'influence sont multiples et complexes : famille, environnement, habitudes
+                                d'étude...</li>
+                        </ul>
+                    </div>
+                    <div class="card card-accent">
+                        <h3>❓ Problématique</h3>
+                        <p><strong>Comment prédire la moyenne annuelle d'un lycéen marocain à partir de ses
+                                caractéristiques socio-démographiques, académiques et comportementales, en utilisant des
+                                techniques de Machine Learning ?</strong></p>
+                    </div>
+                </div>
+                <div>
+                    <div class="card card-info" style="margin-bottom:4mm;">
+                        <h3>💡 Intérêt</h3>
+                        <ul>
+                            <li>Identifier les élèves à risque <strong>avant</strong> l'échec</li>
+                            <li>Comprendre les facteurs déterminants de la réussite</li>
+                            <li>Aider les établissements à prendre des décisions data-driven</li>
+                            <li>Contribuer à la transformation numérique de l'éducation</li>
+                        </ul>
+                    </div>
+                    <div class="key-insight">
+                        <span class="key-insight-icon">🎯</span>
+                        <p>L'utilisation du ML permet de dépasser les analyses traditionnelles et de capturer les
+                            interactions complexes entre les multiples facteurs influençant la réussite scolaire.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="script-box">
+            <p>« Le système éducatif marocain fait face à plusieurs défis majeurs : taux de décrochage élevé, disparités
+                entre régions, et inégalités socio-économiques. Notre problématique est : peut-on prédire la performance
+                d'un élève en analysant plusieurs facteurs, grâce au Machine Learning ? L'objectif est d'intervenir
+                préventivement, avant que l'échec ne survienne. »</p>
+        </div>
+        <span class="slide-number">3 / 11</span>
+        <span class="slide-footer">EduPredictors — Master Big Data & Data Science 2025-2026</span>
+    </div>
+
+    <!-- ╔══════════════════════════════════════════════╗ -->
+    <!-- ║           SLIDE 4 — OBJECTIFS                ║ -->
+    <!-- ╚══════════════════════════════════════════════╝ -->
+    <div class="slide">
+        <div class="slide-header">
+            <span class="slide-header-icon">🎯</span>
+            <h2>Objectifs du Projet</h2>
+            <span class="slide-header-num">02</span>
+        </div>
+        <div class="slide-body">
+            <div class="two-col">
+                <div>
+                    <div class="card card-success" style="margin-bottom:4mm;">
+                        <h3>🎯 Objectif Principal</h3>
+                        <p>Construire un modèle de Machine Learning capable de <strong>prédire la moyenne
+                                annuelle</strong> (note /20) d'un lycéen marocain à partir de 35 features
+                            socio-démographiques, académiques et comportementales.</p>
+                    </div>
+                    <div class="card" style="margin-bottom:4mm;">
+                        <h3>📊 Objectifs Spécifiques</h3>
+                        <ul>
+                            <li><strong>Collecter & nettoyer</strong> un dataset de 10 000 étudiants marocains</li>
+                            <li><strong>Explorer</strong> les données avec une EDA avancée</li>
+                            <li><strong>Comparer 6 modèles</strong> de ML (Linéaire, Ridge, Lasso, RF, XGBoost, MLP)
+                            </li>
+                            <li><strong>Optimiser</strong> le meilleur modèle par hyperparameter tuning</li>
+                            <li><strong>Interpréter</strong> les résultats avec SHAP</li>
+                        </ul>
+                    </div>
+                </div>
+                <div>
+                    <div class="card card-accent" style="margin-bottom:4mm;">
+                        <h3>🚀 Objectif Déploiement</h3>
+                        <ul>
+                            <li>Développer une <strong>interface web interactive</strong> permettant la saisie des
+                                données et la prédiction en temps réel</li>
+                            <li>Mettre en place une <strong>API Flask</strong> pour servir le modèle</li>
+                            <li>Déployer sur le <strong>cloud (Render)</strong></li>
+                        </ul>
+                    </div>
+
+                    <div class="card card-info">
+                        <h3>🔬 Pipeline Complet</h3>
+                        <p>Le projet couvre le pipeline ML <strong>de bout en bout</strong> :</p>
+                    </div>
+                    <div class="pipeline" style="margin-top:4mm;">
+                        <div class="pipeline-step">Collecte</div>
+                        <span class="pipeline-arrow">→</span>
+                        <div class="pipeline-step">Nettoyage</div>
+                        <span class="pipeline-arrow">→</span>
+                        <div class="pipeline-step">EDA</div>
+                        <span class="pipeline-arrow">→</span>
+                        <div class="pipeline-step">Modélisation</div>
+                        <span class="pipeline-arrow">→</span>
+                        <div class="pipeline-step">Évaluation</div>
+                        <span class="pipeline-arrow">→</span>
+                        <div class="pipeline-step">Déploiement</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="script-box">
+            <p>« Notre objectif principal est de construire un modèle ML qui prédit la moyenne annuelle d'un lycéen.
+                Pour y arriver, nous avons collecté 10 000 observations, effectué une analyse exploratoire approfondie,
+                comparé 6 modèles, optimisé le meilleur, et développé une application web complète. Nous avons couvert
+                tout le pipeline, de la collecte de données jusqu'au déploiement. »</p>
+        </div>
+        <span class="slide-number">4 / 11</span>
+        <span class="slide-footer">EduPredictors — Master Big Data & Data Science 2025-2026</span>
+    </div>
+
+    <!-- ╔══════════════════════════════════════════════╗ -->
+    <!-- ║       SLIDE 5 — DATASET & EXPLORATION        ║ -->
+    <!-- ╚══════════════════════════════════════════════╝ -->
+    <div class="slide">
+        <div class="slide-header">
+            <span class="slide-header-icon">📊</span>
+            <h2>Dataset & Exploration (EDA)</h2>
+            <span class="slide-header-num">03</span>
+        </div>
+        <div class="slide-body">
+            <div class="stat-grid">
+                <div class="stat-item">
+                    <div class="stat-value">10 000</div>
+                    <div class="stat-label">Étudiants</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">286</div>
+                    <div class="stat-label">Colonnes initiales</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">35</div>
+                    <div class="stat-label">Features retenues</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">12</div>
+                    <div class="stat-label">Régions du Maroc</div>
+                </div>
+            </div>
+            <div class="two-col" style="margin-top:4mm;">
+                <div>
+                    <div class="card" style="margin-bottom:4mm;">
+                        <h3>📐 Features Numériques (17)</h3>
+                        <div class="feature-tags">
+                            <span class="f-tag">heures_etude_jour</span>
+                            <span class="f-tag">absences_totales</span>
+                            <span class="f-tag">age</span>
+                            <span class="f-tag">revenu_familial</span>
+                            <span class="f-tag">distance_ecole_km</span>
+                            <span class="f-tag">heures_sommeil</span>
+                            <span class="f-tag">taux_assiduite</span>
+                            <span class="f-tag">taux_ponctualite</span>
+                            <span class="f-tag">temps_ecran</span>
+                            <span class="f-tag">activite_physique</span>
+                            <span class="f-tag">retards</span>
+                        </div>
+                    </div>
+                    <div class="card card-accent">
+                        <h3>🏷️ Features Catégorielles (18)</h3>
+                        <div class="feature-tags">
+                            <span class="f-tag">sexe</span>
+                            <span class="f-tag">zone</span>
+                            <span class="f-tag">region</span>
+                            <span class="f-tag">filiere</span>
+                            <span class="f-tag">niveau</span>
+                            <span class="f-tag">soutien_familial</span>
+                            <span class="f-tag">motivation</span>
+                            <span class="f-tag">participation</span>
+                            <span class="f-tag">education_parents</span>
+                            <span class="f-tag">internet</span>
+                            <span class="f-tag">confiance_en_soi</span>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="card card-info" style="margin-bottom:4mm;">
+                        <h3>🔎 Résultats de l'EDA</h3>
+                        <ul>
+                            <li>Variable cible : <strong>moyenne_annuelle</strong> (note /20)</li>
+                            <li>Distribution quasi-normale centrée autour de <strong>11-12/20</strong></li>
+                            <li><strong>Revenu familial</strong> = variable la plus corrélée (r = +0.37)</li>
+                            <li>Pas de valeurs manquantes après nettoyage</li>
+                            <li>One-hot encoding pour les variables catégorielles</li>
+                        </ul>
+                    </div>
+                    <div class="key-insight">
+                        <span class="key-insight-icon">💡</span>
+                        <p><strong>Insight clé :</strong> Le revenu familial, les heures d'étude et le taux d'assiduité
+                            sont les 3 prédicteurs les plus importants de la performance.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="script-box">
+            <p>« Notre dataset contient 10 000 étudiants répartis sur les 12 régions du Maroc. De 286 colonnes
+                initiales, nous avons retenu 35 features pertinentes — 17 numériques et 18 catégorielles. L'analyse
+                exploratoire a révélé que le revenu familial est la variable la plus corrélée avec la performance
+                scolaire, avec un coefficient de +0.37. »</p>
+        </div>
+        <span class="slide-number">5 / 11</span>
+        <span class="slide-footer">EduPredictors — Master Big Data & Data Science 2025-2026</span>
+    </div>
+
+    <!-- ╔══════════════════════════════════════════════╗ -->
+    <!-- ║     SLIDE 6 — MÉTHODOLOGIE & PIPELINE        ║ -->
+    <!-- ╚══════════════════════════════════════════════╝ -->
+    <div class="slide">
+        <div class="slide-header">
+            <span class="slide-header-icon">⚙️</span>
+            <h2>Méthodologie & Pipeline ML</h2>
+            <span class="slide-header-num">04</span>
+        </div>
+        <div class="slide-body">
+            <div class="two-col">
+                <div>
+                    <div class="card" style="margin-bottom:4mm;">
+                        <h3>1. Prétraitement des Données</h3>
+                        <ul>
+                            <li>Nettoyage : suppression des doublons, traitement des outliers</li>
+                            <li>Réduction de 286 → 35 colonnes pertinentes</li>
+                            <li><strong>StandardScaler</strong> pour les features numériques</li>
+                            <li><strong>OneHotEncoder</strong> pour les features catégorielles</li>
+                            <li><strong>ColumnTransformer</strong> pour combiner les transformations</li>
+                        </ul>
+                    </div>
+                    <div class="card card-accent" style="margin-bottom:4mm;">
+                        <h3>2. Split des Données</h3>
+                        <ul>
+                            <li><strong>80% Train</strong> — 8 000 échantillons</li>
+                            <li><strong>20% Test</strong> — 2 000 échantillons</li>
+                            <li>Random state fixé pour la reproductibilité</li>
+                        </ul>
+                    </div>
+                    <div class="card card-success">
+                        <h3>3. Métriques d'Évaluation</h3>
+                        <ul>
+                            <li><strong>R² Score</strong> — Variance expliquée</li>
+                            <li><strong>RMSE</strong> — Erreur quadratique moyenne</li>
+                            <li><strong>MAE</strong> — Erreur absolue moyenne</li>
+                            <li><strong>Cross-Validation</strong> — 5-Fold</li>
+                        </ul>
+                    </div>
+                </div>
+                <div>
+                    <div class="card card-info" style="margin-bottom:4mm;">
+                        <h3>4. Modèles Entraînés</h3>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Modèle</th>
+                                    <th>Type</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Régression Linéaire</td>
+                                    <td>Baseline</td>
+                                </tr>
+                                <tr>
+                                    <td>Ridge (L2)</td>
+                                    <td>Régularisé</td>
+                                </tr>
+                                <tr>
+                                    <td>Lasso (L1)</td>
+                                    <td>Régularisé</td>
+                                </tr>
+                                <tr>
+                                    <td>Random Forest</td>
+                                    <td>Ensemble</td>
+                                </tr>
+                                <tr class="highlight-row">
+                                    <td>⭐ XGBoost</td>
+                                    <td>Boosting</td>
+                                </tr>
+                                <tr>
+                                    <td>MLP (Deep Learning)</td>
+                                    <td>Neural Net</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card card-warning">
+                        <h3>5. Technologies Utilisées</h3>
+                        <div class="feature-tags">
+                            <span class="method-tag">Python 3.11+</span>
+                            <span class="method-tag">scikit-learn</span>
+                            <span class="method-tag">XGBoost</span>
+                            <span class="method-tag">Pandas</span>
+                            <span class="method-tag">NumPy</span>
+                            <span class="method-tag">SHAP</span>
+                            <span class="method-tag">Matplotlib</span>
+                            <span class="method-tag">Flask</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="script-box">
+            <p>« Notre pipeline commence par le prétraitement : StandardScaler pour les numériques, OneHotEncoder pour
+                les catégorielles, le tout via un ColumnTransformer de scikit-learn. Nous avons séparé 80% pour
+                l'entraînement et 20% pour le test. Six modèles ont été entraînés et évalués sur trois métriques : R²,
+                RMSE et MAE, avec une cross-validation à 5 folds. »</p>
+        </div>
+        <span class="slide-number">6 / 11</span>
+        <span class="slide-footer">EduPredictors — Master Big Data & Data Science 2025-2026</span>
+    </div>
+
+    <!-- ╔══════════════════════════════════════════════╗ -->
+    <!-- ║      SLIDE 7 — RÉSULTATS & COMPARAISON       ║ -->
+    <!-- ╚══════════════════════════════════════════════╝ -->
+    <div class="slide">
+        <div class="slide-header">
+            <span class="slide-header-icon">📈</span>
+            <h2>Résultats & Comparaison des Modèles</h2>
+            <span class="slide-header-num">05</span>
+        </div>
+        <div class="slide-body">
+            <div class="two-col">
+                <div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Modèle</th>
+                                <th>R² Test</th>
+                                <th>RMSE</th>
+                                <th>MAE</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Régression Linéaire</td>
+                                <td>0.1769</td>
+                                <td>2.0162</td>
+                                <td>1.7147</td>
+                            </tr>
+                            <tr>
+                                <td>Ridge (L2)</td>
+                                <td>0.1777</td>
+                                <td>2.0152</td>
+                                <td>1.7137</td>
+                            </tr>
+                            <tr>
+                                <td>Lasso (L1)</td>
+                                <td>0.1430</td>
+                                <td>2.0573</td>
+                                <td>1.7408</td>
+                            </tr>
+                            <tr>
+                                <td>Random Forest</td>
+                                <td>0.1478</td>
+                                <td>2.0515</td>
+                                <td>1.7384</td>
+                            </tr>
+                            <tr class="highlight-row">
+                                <td>⭐ <strong>XGBoost (Tuned)</strong></td>
+                                <td><strong>0.1827</strong></td>
+                                <td><strong>Meilleur</strong></td>
+                                <td><strong>Meilleur</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Deep Learning (MLP)</td>
+                                <td>0.1585</td>
+                                <td>2.0386</td>
+                                <td>1.7351</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="key-insight" style="margin-top:4mm;">
+                        <span class="key-insight-icon">⭐</span>
+                        <p><strong>XGBoost (Tuned)</strong> est le meilleur modèle avec un R² de
+                            <strong>0.1827</strong>, offrant les meilleures performances sur toutes les métriques.</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="card card-success" style="margin-bottom:4mm;">
+                        <h3>📊 Analyse des Résultats</h3>
+                        <ul>
+                            <li>XGBoost surpasse les modèles linéaires grâce au boosting</li>
+                            <li>Ridge ≈ Linéaire : la régularisation L2 apporte peu d'amélioration</li>
+                            <li>Lasso élimine trop de features → performances réduites</li>
+                            <li>Random Forest : risque d'overfitting sur ce dataset</li>
+                            <li>MLP : performances moyennes, dataset peut-être insuffisant</li>
+                        </ul>
+                    </div>
+                    <div class="card card-warning" style="margin-bottom:4mm;">
+                        <h3>🔍 Interprétabilité (SHAP)</h3>
+                        <ul>
+                            <li><strong>Top 3 features :</strong></li>
+                            <li>1. Revenu familial (impact le plus élevé)</li>
+                            <li>2. Heures d'étude par jour</li>
+                            <li>3. Taux d'assiduité</li>
+                        </ul>
+                    </div>
+                    <div class="card card-accent">
+                        <h3>⚠️ Discussion</h3>
+                        <p>Les R² modérés (~18%) s'expliquent par la <strong>complexité des facteurs éducatifs</strong>
+                            : variables non capturées (motivation intrinsèque, qualité de l'enseignement...). Ceci
+                            constitue une perspective d'amélioration.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="script-box">
+            <p>« Voici le comparatif de nos 6 modèles. XGBoost Tuned est le meilleur avec un R² de 0.1827. L'analyse
+                SHAP révèle que le revenu familial est le prédicteur le plus important, suivi des heures d'étude et du
+                taux d'assiduité. Le R² modéré s'explique par la complexité inhérente aux facteurs éducatifs — beaucoup
+                de variables échappent à la mesure. »</p>
+        </div>
+        <span class="slide-number">7 / 11</span>
+        <span class="slide-footer">EduPredictors — Master Big Data & Data Science 2025-2026</span>
+    </div>
+
+    <!-- ╔══════════════════════════════════════════════╗ -->
+    <!-- ║      SLIDE 8 — APPLICATION WEB               ║ -->
+    <!-- ╚══════════════════════════════════════════════╝ -->
+    <div class="slide">
+        <div class="slide-header">
+            <span class="slide-header-icon">🌐</span>
+            <h2>Application Web & Démo</h2>
+            <span class="slide-header-num">06</span>
+        </div>
+        <div class="slide-body">
+            <div class="two-col">
+                <div>
+                    <div class="card" style="margin-bottom:4mm;">
+                        <h3>🏗️ Architecture</h3>
+                        <ul>
+                            <li><strong>Frontend :</strong> HTML5, CSS3, JavaScript (SPA)</li>
+                            <li><strong>Backend :</strong> Flask API (Python)</li>
+                            <li><strong>Modèle :</strong> XGBoost sérialisé (.pkl)</li>
+                            <li><strong>Déploiement :</strong> Render (Cloud)</li>
+                        </ul>
+                    </div>
+                    <div class="card card-accent" style="margin-bottom:4mm;">
+                        <h3>✨ Fonctionnalités de l'Interface</h3>
+                        <ul>
+                            <li>Formulaire interactif à <strong>35 champs</strong></li>
+                            <li>Résultat de prédiction avec <strong>gauge animée</strong></li>
+                            <li>Design premium : <strong>Dark theme + Glassmorphism</strong></li>
+                            <li>Animations fluides et responsive design</li>
+                        </ul>
+                    </div>
+                    <div class="card card-info">
+                        <h3>🔌 Endpoints API</h3>
+                        <ul>
+                            <li><span class="badge badge-success">GET</span> <strong>/</strong> — Interface web</li>
+                            <li><span class="badge badge-primary">POST</span> <strong>/predict</strong> — Prédiction
+                            </li>
+                            <li><span class="badge badge-accent">GET</span> <strong>/metadata</strong> — Métadonnées
+                                features</li>
+                        </ul>
+                    </div>
+                </div>
+                <div>
+                    <div class="card card-success" style="margin-bottom:4mm; padding: 3mm;">
+                        <h3>📸 Capture — Page d'accueil</h3>
+                        <div style="text-align:center; margin-top:2mm;">
+                            <img src="screenshots/hero.png" alt="Page d'accueil EduPredictors"
+                                style="width:100%; border-radius:2mm; border:1px solid var(--border);">
+                        </div>
+                    </div>
+                    <div class="card card-warning" style="padding: 3mm;">
+                        <h3>📸 Capture — Résultat Prédiction</h3>
+                        <div style="text-align:center; margin-top:2mm;">
+                            <img src="screenshots/prediction.png" alt="Résultat de prédiction"
+                                style="width:100%; border-radius:2mm; border:1px solid var(--border);">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="script-box">
+            <p>« Nous avons développé une application web complète avec une API Flask en backend. L'interface utilise un
+                design dark theme avec glassmorphism. L'utilisateur remplit un formulaire de 35 features et reçoit
+                instantanément la prédiction de la moyenne annuelle, affichée avec une gauge animée. L'application est
+                déployable sur le cloud via Render. »</p>
+        </div>
+        <span class="slide-number">8 / 11</span>
+        <span class="slide-footer">EduPredictors — Master Big Data & Data Science 2025-2026</span>
+    </div>
+
+    <!-- ╔══════════════════════════════════════════════╗ -->
+    <!-- ║      SLIDE 9 — GESTION DE PROJET (SCRUM)     ║ -->
+    <!-- ╚══════════════════════════════════════════════╝ -->
+    <div class="slide">
+        <div class="slide-header">
+            <span class="slide-header-icon">👥</span>
+            <h2>Gestion de Projet — Méthodologie Scrum</h2>
+            <span class="slide-header-num">07</span>
+        </div>
+        <div class="slide-body">
+            <p class="section-subtitle">Approche Agile avec des sprints réguliers et des daily meetings</p>
+
+            <div class="team-grid" style="margin-bottom:5mm;">
+                <div class="team-member">
+                    <div
+                        style="width:18mm;height:18mm;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;margin:0 auto 2mm;font-size:14pt;color:var(--dark);">
+                        M</div>
+                    <div class="member-name">Maryem Boulaaqidate</div>
+                    <div class="member-role">Product Owner</div>
+                    <div class="member-tasks">Vision produit, backlog, rapport</div>
+                </div>
+                <div class="team-member">
+                    <img src="screenshots/Douae Moussaoui.jpeg" alt="Douae" class="member-avatar">
+                    <div class="member-name">Douae Moussaoui</div>
+                    <div class="member-role">Scrum Master</div>
+                    <div class="member-tasks">Coordination, JIRA, Daily Meetings</div>
+                </div>
+                <div class="team-member">
+                    <img src="screenshots/youssef el alem.jpeg" alt="Youssef" class="member-avatar">
+                    <div class="member-name">Youssef Elalem</div>
+                    <div class="member-role">Équipe Dev</div>
+                    <div class="member-tasks">Data Engineering & Nettoyage</div>
+                </div>
+                <div class="team-member">
+                    <img src="screenshots/Taha Kachmar.png" alt="Taha" class="member-avatar">
+                    <div class="member-name">Taha Kachmar</div>
+                    <div class="member-role">Équipe Dev</div>
+                    <div class="member-tasks">Modélisation ML & Optimisation</div>
+                </div>
+                <div class="team-member">
+                    <img src="screenshots/mohammed rakhila.jpeg" alt="Mohammed" class="member-avatar">
+                    <div class="member-name">Mohammed Rakhila</div>
+                    <div class="member-role">Équipe Dev</div>
+                    <div class="member-tasks">Évaluation & Code Review</div>
+                </div>
+            </div>
+
+            <div class="two-col">
+                <div>
+                    <div class="card card-info">
+                        <h3>📋 Pratiques Scrum Adoptées</h3>
+                        <ul>
+                            <li><strong>Sprint Planning</strong> — Planification des tâches par sprint</li>
+                            <li><strong>Daily Standup</strong> — Réunions quotidiennes de synchronisation</li>
+                            <li><strong>Sprint Review</strong> — Démonstration des résultats</li>
+                            <li><strong>Retrospective</strong> — Amélioration continue</li>
+                        </ul>
+                    </div>
+                </div>
+                <div>
+                    <div class="card card-accent">
+                        <h3>🛠️ Outils de Gestion</h3>
+                        <ul>
+                            <li><strong>JIRA</strong> — Gestion du backlog et suivi des sprints</li>
+                            <li><strong>GitHub</strong> — Versionnement et collaboration</li>
+                            <li><strong>Google Meet</strong> — Daily meetings</li>
+                            <li><strong>Google Drive</strong> — Partage de documents</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="script-box">
+            <p>« Nous avons adopté la méthodologie Scrum pour gérer notre projet. Maryem était Product Owner, Douae
+                Scrum Master, et Youssef, Taha et Mohammed formaient l'équipe de développement. Nous avons utilisé JIRA
+                pour le backlog, GitHub pour le code, et fait des daily meetings régulières pour assurer la
+                synchronisation de l'équipe. »</p>
+        </div>
+        <span class="slide-number">9 / 11</span>
+        <span class="slide-footer">EduPredictors — Master Big Data & Data Science 2025-2026</span>
+    </div>
+
+    <!-- ╔══════════════════════════════════════════════╗ -->
+    <!-- ║      SLIDE 10 — CONCLUSION & PERSPECTIVES    ║ -->
+    <!-- ╚══════════════════════════════════════════════╝ -->
+    <div class="slide">
+        <div class="slide-header">
+            <span class="slide-header-icon">🏁</span>
+            <h2>Conclusion & Perspectives</h2>
+            <span class="slide-header-num">08</span>
+        </div>
+        <div class="slide-body">
+            <div class="two-col">
+                <div>
+                    <div class="card card-success" style="margin-bottom:4mm;">
+                        <h3>✅ Réalisations</h3>
+                        <ul>
+                            <li>Pipeline ML complet de bout en bout</li>
+                            <li>Dataset de <strong>10 000 étudiants</strong> nettoyé et analysé</li>
+                            <li><strong>6 modèles</strong> comparés et évalués rigoureusement</li>
+                            <li>XGBoost sélectionné comme meilleur modèle (R² = 0.1827)</li>
+                            <li>Interprétabilité via <strong>SHAP Values</strong></li>
+                            <li>Application web déployée et fonctionnelle</li>
+                            <li>Gestion de projet <strong>Agile/Scrum</strong> efficace</li>
+                        </ul>
+                    </div>
+                    <div class="card card-accent">
+                        <h3>💡 Insights Clés</h3>
+                        <ul>
+                            <li>Le <strong>revenu familial</strong> est le facteur #1</li>
+                            <li>Les <strong>habitudes d'étude</strong> impactent fortement la performance</li>
+                            <li>Le <strong>soutien familial</strong> joue un rôle crucial</li>
+                            <li>Les facteurs socio-économiques dominent les facteurs académiques purs</li>
+                        </ul>
+                    </div>
+                </div>
+                <div>
+                    <div class="card card-warning" style="margin-bottom:4mm;">
+                        <h3>🔮 Perspectives d'Amélioration</h3>
+                        <ul>
+                            <li><strong>Enrichir les données :</strong> Ajouter des variables comme la qualité de
+                                l'enseignement, l'environnement scolaire</li>
+                            <li><strong>Deep Learning :</strong> Tester des architectures plus profondes (LSTM,
+                                Transformers) avec plus de données</li>
+                            <li><strong>Feature Engineering :</strong> Créer des interactions entre features</li>
+                            <li><strong>Données longitudinales :</strong> Suivre les étudiants sur plusieurs années</li>
+                            <li><strong>Modèle multi-tâches :</strong> Prédire matière par matière</li>
+                        </ul>
+                    </div>
+                    <div class="conclusion-box">
+                        <h3>🎓 Message Final</h3>
+                        <p>Ce projet démontre que le Machine Learning peut être un outil puissant pour comprendre et
+                            prédire la performance éducative. Les insights extraits peuvent guider les politiques
+                            éducatives vers plus d'équité.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="script-box">
+            <p>« En conclusion, nous avons réussi à construire un pipeline ML complet, de la collecte à l'application
+                web. Les résultats montrent que les facteurs socio-économiques, notamment le revenu familial, dominent
+                les prédicteurs de performance. Comme perspectives, nous proposons d'enrichir les données, d'explorer le
+                Deep Learning, et de faire du suivi longitudinal. Ce projet montre le potentiel du ML pour améliorer le
+                système éducatif marocain. »</p>
+        </div>
+        <span class="slide-number">10 / 11</span>
+        <span class="slide-footer">EduPredictors — Master Big Data & Data Science 2025-2026</span>
+    </div>
+
+    <!-- ╔══════════════════════════════════════════════╗ -->
+    <!-- ║          SLIDE 11 — MERCI / Q&A              ║ -->
+    <!-- ╚══════════════════════════════════════════════╝ -->
+    <div class="slide slide-cover"
+        style="background: linear-gradient(135deg, var(--dark) 0%, #1a3a5c 50%, #2c5f8a 100%);">
+        <div class="cover-emoji" style="font-size:50pt;">🎓</div>
+        <h1 class="cover-title" style="font-size:36pt;">Merci pour votre attention</h1>
+        <div class="cover-divider" style="margin-top:8mm;"></div>
+        <div class="cover-subtitle" style="font-size:16pt; margin-top:5mm;">Questions & Discussion</div>
+        <div style="margin-top:12mm; font-size:10pt; opacity:0.6;">
+            <p>Équipe EduPredictors — Master Big Data & Data Science</p>
+            <p>Université Hassan II de Casablanca — 2025-2026</p>
+        </div>
+        <div style="margin-top:8mm; opacity:0.5; font-size:9pt;">
+            <span>📧 Contact : github.com/youssefelalem</span>
+        </div>
+    </div>
+
+</body>
+
+</html>
