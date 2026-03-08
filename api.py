@@ -29,6 +29,13 @@ NUM_FEATURES = [
     'activite_physique_heures_semaine', 'temps_ecran_heures_jour',
     'taux_assiduite', 'taux_ponctualite', 'taux_remise_devoirs',
     'annees_redoublement', 'retards',
+    # Nouvelles variables numériques
+    'effectif_classe', 'avertissements', 'sanctions',
+    'nombre_livres', 'cout_mensuel_soutien',
+    'heures_sommeil_weekend', 'reseaux_sociaux_heures_jour',
+    'jeux_video_heures_jour', 'lecture_heures_jour',
+    'notes_examens_blancs', 'revenu_mensuel_pere',
+    'moyenne_annee_precedente', 'rang_annee_precedente',
 ]
 
 CAT_FEATURES = [
@@ -37,6 +44,13 @@ CAT_FEATURES = [
     'cours_particuliers', 'niveau_motivation', 'participation_classe',
     'attention_cours', 'implication_parents', 'confiance_en_soi',
     'internet', 'chambre_personnelle', 'ordinateur_portable',
+    # Nouvelles variables catégorielles
+    'score_engagement', 'score_feedback_enseignants', 'score_collaboration',
+    'comportement', 'prise_notes',
+    'niveau_stress', 'niveau_anxiete',
+    'satisfaction_ecole', 'satisfaction_enseignants',
+    'efficacite_auto_apprentissage', 'gestion_temps', 'organisation',
+    'resolution_problemes', 'pensee_critique',
 ]
 
 # Options des catégories
@@ -68,6 +82,21 @@ CAT_OPTIONS = {
     'internet': ['Non', 'Oui'],
     'chambre_personnelle': ['Non', 'Oui'],
     'ordinateur_portable': ['Non', 'Oui'],
+    # Nouvelles catégories
+    'score_engagement': ['Moyen', 'Bon', 'Excellent', 'Remarquable'],
+    'score_feedback_enseignants': ['Moyen', 'Bon', 'Excellent'],
+    'score_collaboration': ['Moyen', 'Eleve', 'Tres Eleve'],
+    'comportement': ['Faible', 'Moyen', 'Bon', 'Excellent', 'Remarquable'],
+    'prise_notes': ['Rarement', 'Parfois', 'Habituellement', 'Toujours'],
+    'niveau_stress': ['Faible', 'Moyen', 'Eleve', 'Tres Eleve'],
+    'niveau_anxiete': ['Faible', 'Moyen', 'Eleve'],
+    'satisfaction_ecole': ['Faible', 'Moyen', 'Eleve', 'Tres Eleve'],
+    'satisfaction_enseignants': ['Moyen', 'Bon', 'Excellent'],
+    'efficacite_auto_apprentissage': ['Moyen', 'Eleve', 'Tres Eleve'],
+    'gestion_temps': ['Moyen', 'Bon', 'Excellent'],
+    'organisation': ['Moyen', 'Eleve', 'Tres Eleve'],
+    'resolution_problemes': ['Moyen', 'Eleve', 'Tres Eleve'],
+    'pensee_critique': ['Moyen', 'Eleve', 'Tres Eleve'],
 }
 
 # Plages numériques
@@ -89,6 +118,20 @@ NUM_RANGES = {
     'taux_remise_devoirs':             {'min': 65,'max': 100,   'step': 1,   'default': 83},
     'annees_redoublement':             {'min': 0, 'max': 1,     'step': 1,   'default': 0},
     'retards':                         {'min': 0, 'max': 12,    'step': 1,   'default': 5},
+    # Nouvelles variables numériques
+    'effectif_classe':                 {'min': 28,'max': 46,    'step': 1,   'default': 37},
+    'avertissements':                  {'min': 0, 'max': 3,     'step': 1,   'default': 1},
+    'sanctions':                       {'min': 0, 'max': 1,     'step': 1,   'default': 0},
+    'nombre_livres':                   {'min': 3, 'max': 250,   'step': 1,   'default': 120},
+    'cout_mensuel_soutien':            {'min': 0, 'max': 1500,  'step': 50,  'default': 350},
+    'heures_sommeil_weekend':          {'min': 6.5,'max': 11,   'step': 0.5, 'default': 9},
+    'reseaux_sociaux_heures_jour':     {'min': 0, 'max': 5,     'step': 0.5, 'default': 2.5},
+    'jeux_video_heures_jour':          {'min': 0, 'max': 4,     'step': 0.5, 'default': 2},
+    'lecture_heures_jour':             {'min': 0, 'max': 3.5,   'step': 0.5, 'default': 2},
+    'notes_examens_blancs':            {'min': 45,'max': 98,    'step': 1,   'default': 72},
+    'revenu_mensuel_pere':             {'min': 0, 'max': 23000, 'step': 500, 'default': 9000},
+    'moyenne_annee_precedente':        {'min': 6, 'max': 20,    'step': 0.1, 'default': 12.5},
+    'rang_annee_precedente':           {'min': 1, 'max': 49,    'step': 1,   'default': 22},
 }
 
 
@@ -126,6 +169,21 @@ def predict():
         for col in NUM_FEATURES:
             if col in df.columns:
                 df[col] = pd.to_numeric(df[col], errors='coerce').fillna(0)
+
+        # Feature Engineering (variables calculées attendues par le modèle)
+        membres = max(df['nombre_membres_famille'].iloc[0], 1)
+        df['revenu_par_personne'] = df['revenu_familial'] / membres
+        total_etude = (df['heures_etude_jour'] * 5) + (df['heures_etude_weekend'] * 2)
+        df['ratio_etude_ecran'] = total_etude / ((df['temps_ecran_heures_jour'] * 7) + 1)
+        df['indice_discipline'] = (df['taux_assiduite'] + df['taux_ponctualite'] + df['taux_remise_devoirs']) / 3
+        df['penalite_comportement'] = df['absences_totales'] + df['retards']
+        df['charge_parascolaire'] = df['heures_soutien_semaine'] + df['activite_physique_heures_semaine']
+        df['score_numerique'] = (
+            (1 if df['internet'].iloc[0] == 'Oui' else 0) +
+            (1 if df['ordinateur_portable'].iloc[0] == 'Oui' else 0) +
+            (1 if df['chambre_personnelle'].iloc[0] == 'Oui' else 0)
+        )
+        df['ratio_repos_activite'] = df['heures_sommeil_semaine'] / (total_etude + 1)
 
         prediction = pipeline.predict(df)[0]
         prediction = round(float(prediction), 2)

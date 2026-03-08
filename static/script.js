@@ -101,7 +101,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 'region', 'niveau_education_pere', 'niveau_education_mere', 'statut_parental',
                 'cours_particuliers', 'niveau_motivation', 'participation_classe',
                 'attention_cours', 'implication_parents', 'confiance_en_soi',
-                'internet', 'chambre_personnelle', 'ordinateur_portable'].includes(key) ? val : num;
+                'internet', 'chambre_personnelle', 'ordinateur_portable',
+                'score_engagement', 'score_feedback_enseignants', 'score_collaboration',
+                'comportement', 'prise_notes', 'niveau_stress', 'niveau_anxiete',
+                'satisfaction_ecole', 'satisfaction_enseignants',
+                'efficacite_auto_apprentissage', 'gestion_temps', 'organisation',
+                'resolution_problemes', 'pensee_critique'].includes(key) ? val : num;
         });
 
         try {
