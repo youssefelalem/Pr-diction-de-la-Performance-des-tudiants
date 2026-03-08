@@ -1,6 +1,6 @@
 ﻿<p align="center">
   <img src="https://img.shields.io/badge/Python-3.11+-blue?logo=python&logoColor=white" />
-  <img src="https://img.shields.io/badge/XGBoost-ML-orange?logo=xgboost" />
+  <img src="https://img.shields.io/badge/Gradient%20Boosting-R%C2%B2%200.93-success" />
   <img src="https://img.shields.io/badge/Flask-API-lightgrey?logo=flask" />
   <img src="https://img.shields.io/badge/scikit--learn-ML-f7931e?logo=scikitlearn&logoColor=white" />
 </p>
@@ -20,10 +20,10 @@ Application web de prédiction de la **moyenne annuelle** des lycéens marocains
 
 ## ✨ Fonctionnalités
 
-- 🔍 **Pipeline ML complet** : Collecte → Nettoyage → EDA → Modélisation → Évaluation → Déploiement
+- 🔍 **Pipeline ML complet** : Collecte → Nettoyage → EDA → Feature Engineering → Modélisation → Évaluation → Déploiement
 - 🧠 **Prédiction interactive** : Formulaire à 35 features avec résultat en temps réel (gauge animée)
-- 📊 **6 modèles comparés** : Régression Linéaire, Ridge, Lasso, Random Forest, XGBoost, MLP
-- ⭐ **Meilleur modèle** : XGBoost (Tuned) — R² = 0.1827
+- 📊 **8 modèles comparés** : Régression Linéaire, Ridge, Lasso, ElasticNet, Random Forest, Gradient Boosting, XGBoost, MLP
+- ⭐ **Meilleur modèle** : Gradient Boosting (Tuné) — R² = 0.9285
 - 🎨 **Interface premium** : Dark theme, glassmorphism, animations fluides
 - 📈 **SHAP Values** : Interprétabilité du modèle
 
@@ -31,6 +31,7 @@ Application web de prédiction de la **moyenne annuelle** des lycéens marocains
 
 ```
 ├── api.py                          # 🚀 Flask API (serveur web)
+├── rapport_de_projet.pdf           # 📄 Rapport du projet (PDF)
 ├── static/
 │   ├── index.html                  # 🎨 Interface web (SPA)
 │   ├── style.css                   # 💅 Styles (dark glassmorphism)
@@ -80,6 +81,7 @@ Ouvrir [http://localhost:5000](http://localhost:5000) dans votre navigateur.
 | **Taille** | 10 000 étudiants |
 | **Colonnes originales** | 286 |
 | **Features retenues** | 35 (17 numériques + 18 catégorielles) |
+| **Feature Engineering** | 7 variables calculées → 69 features après One-Hot Encoding |
 | **Régions** | 12 régions du Maroc |
 | **Target** | `moyenne_annuelle` (note /20) |
 
@@ -87,12 +89,14 @@ Ouvrir [http://localhost:5000](http://localhost:5000) dans votre navigateur.
 
 | Modèle | R² Test | RMSE | MAE |
 |---|---|---|---|
-| Régression Linéaire | 0.1769 | 2.0162 | 1.7147 |
-| Ridge (L2) | 0.1777 | 2.0152 | 1.7137 |
-| Lasso (L1) | 0.1430 | 2.0573 | 1.7408 |
-| Random Forest | 0.1478 | 2.0515 | 1.7384 |
-| **⭐ XGBoost (Tuned)** | **0.1827** | **Meilleur** | **Meilleur** |
-| Deep Learning (MLP) | 0.1585 | 2.0386 | 1.7351 |
+| Régression Linéaire | 0.9265 | 0.603 | 0.478 |
+| Ridge (L2) | 0.9265 | 0.603 | 0.478 |
+| Lasso (L1) | 0.9262 | 0.604 | 0.479 |
+| ElasticNet (L1+L2) | 0.9262 | 0.604 | 0.479 |
+| Random Forest | 0.7148 | 1.189 | 0.933 |
+| **⭐ Gradient Boosting (Tuné)** | **0.9285** | **0.595** | **0.472** |
+| XGBoost | 0.9271 | 0.600 | 0.476 |
+| Deep Learning (MLP) | 0.9224 | 0.620 | 0.492 |
 
 > 💡 Le **revenu familial** est la variable la plus corrélée avec la performance (r = +0.37).
 
@@ -103,7 +107,8 @@ Ouvrir [http://localhost:5000](http://localhost:5000) dans votre navigateur.
 | **Python** | Langage principal |
 | **Pandas / NumPy** | Manipulation de données |
 | **scikit-learn** | Preprocessing & pipelines |
-| **XGBoost** | Modèle de prédiction |
+| **XGBoost** | Modèle de boosting |
+| **Gradient Boosting** | Meilleur modèle (tuné) |
 | **SHAP** | Interprétabilité |
 | **Flask** | API web |
 | **HTML/CSS/JS** | Interface utilisateur |
